@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <form style="position:absolute;top:50%;left:50%;transform: translate(-50%,-50%);display: flex;flex-direction: column;" onkeypress="return event.keyCode != 13">
+        <div style="display:flex;">
+            <input style="border-radius:10px;padding: 10px;" type="text" name="input">
+            <div style="margin-top: 12px;"><input type="checkbox" name="mode">Web storage</div>
+        </div>
+        
+        <input style="border-radius:10px;padding: 10px;margin-top: 10px;" type="button" value="Wykonaj operacje" onclick="wykonaj()">
+        <div id="res" style="margin-top: 10px;">-</div>
+    </form>
+
+    <script src="lab2.js"></script>
+</body>
+</html>

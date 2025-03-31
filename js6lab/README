@@ -1,0 +1,19 @@
+
+npm i cors express nodemon
+--------------------------------1------------------------
+node server1
+http://localhost:8080/
+1. Click 'using Fetch API' and see that alert works propertly (Dont have object[promise] in text).
+2. http://localhost:8080/submit?imie=Dominik (Result good?)
+http://localhost:8080/submit?imie=Kuba
+3.click inputs
+
+--------------------------------2------------------------
+node server2
+http://localhost:8080/
+1.pobierz!
+
+--------------------------------3------------------------
+1.przechodzi xml test?
+2. wyswietla godzine
+

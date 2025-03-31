@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input id="area" value="Europe">
+    <input id="location" value="Warsaw">
+    <button id="go" style="background-color: rgb(101, 202, 101);" onclick="download()">Pobierz</button>
+    
+    <!-- ***************** -->
+    <h1>Remote</h1>
+    <div id='remote'>
+    Remote date and time
+    </div>
+    <!-- ***************** -->
+    <h1>Local</h1>
+    <div id='local'>
+    Local date and time
+    </div>
+    <script>
+        var remote = document.getElementById("remote");
+        var local = document.getElementById("local");
+
+        function download()
+        {
+            remote.innerText="Downloading data..."
+            local.innerText="Downloading data..."
+            let ar= document.getElementById("area").value;
+            let loc= document.getElementById("location").value;
+            goRemote(ar,loc);
+            goLocal();
+        }
+        function goRemote(area,location) 
+        {
+            fetch('http://worldtimeapi.org/api/timezone/'+area+"/"+location).then(response => response.json()).then(data=> {
+                remote.innerText= data['datetime'];
+            })
+            .catch(function (error) {window.alert("The server is overloaded");});
+        }
+
+        function goLocal() 
+        {
+            fetch('http://localhost:8081/',{
+            mode: 'no-cors'}).then(response => 
+            {
+            date=new Date();
+            local.innerText= date.getDate()+".0"+date.getMonth()+" " +date.getHours()+":"+date.getMinutes();
+            } );//
+        }
+    </script>
+</body>
+</html>

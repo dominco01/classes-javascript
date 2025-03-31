@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>
+      Form
+    </title>
+    <script>
+    function requestAJAX() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) { // If the response is ready
+          if (this.status == 200) {                   // If the request was correct
+            if (this.getResponseHeader('content-type') !== 'application/xml') {
+              // If the received data is plain text or a JSON document
+              var received_data = this.responseText; // Get a response in the form of a string
+              window.alert(received_data);           // and display it
+            }
+            else {
+              //If the received data is an XML document
+              var xmlDoc = this.responseXML; // Get the response in the form of an "XmlDocument" object that can be accessed through DOM methods — see https://www.w3.org/TR/domcore/
+              window.alert(xmlDoc);
+              console.log(xmlDoc);
+            }
+          }
+          else
+            window.alert('There was a problem with this request.');
+        }
+      };
+      xhr.open('GET', '/submit', true);
+      xhr.send(null);
+    }
+
+    function response(xhr) {
+      if (xhr.readyState == XMLHttpRequest.DONE) { // If the response is ready
+        if (xhr.status == 200) {                   // If the request was correct
+          if (xhr.getResponseHeader('content-type') !== 'application/xml') {
+            // If the received data is plain text or a JSON document
+            var received_data = xhr.responseText; // Get a response in the form of a string
+            window.alert(received_data);          // and display it
+          }
+          else {
+            //If the received data is an XML document
+            var xmlDoc = xhr.responseXML; // Get the response in the form of an "XmlDocument" object that can be accessed through DOM methods — see https://www.w3.org/TR/domcore/
+            window.alert(xmlDoc);
+            console.log(xmlDoc);
+          }
+        }
+      }
+      else
+        window.alert('There was a problem with this request.');
+    }
+
+    function requestFetchAPI() {
+        
+      fetch('/submit') // Execution of the (asynchronous) query to the web server — a promise is created
+        .then(function (response) { // if the promise is fulfilled
+            
+            if (!response.ok)
+          {
+            throw Error(response.statusText);
+          }
+            
+          if (response.headers.get("Content-Type") !== 'application/json')
+          {
+            response.text().then(text=>{
+                window.alert(text);
+            }); // show the Promise object
+            
+          }
+          else
+          {
+            window.alert(response.json()); // show the Promise object
+            
+          }
+            //If the received data is a JSON document
+            
+        })
+        .catch(function (error) { // if the promise is rejected
+          window.alert(error);
+        });
+    }
+
+    function requestAJAXGet() {//my fun
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (this.readyState == XMLHttpRequest.DONE) { // If the response is ready
+          if (this.status == 200) {                   // If the request was correct
+            if (this.getResponseHeader('content-type') !== 'application/xml') {
+              // If the received data is plain text or a JSON document
+              var received_data = this.responseText; // Get a response in the form of a string
+              window.alert(received_data);           // and display it
+            }
+            else {
+              //If the received data is an XML document
+              var xmlDoc = this.responseXML; // Get the response in the form of an "XmlDocument" object that can be accessed through DOM methods — see https://www.w3.org/TR/domcore/
+              window.alert(xmlDoc);
+              console.log(xmlDoc);
+            }
+          }
+          else
+            window.alert('There was a problem with this request.');
+        }
+      };
+      let name = document.getElementById("nameInput").value.replace('&', " ");;
+      xhr.open('GET', '/submit?imie='+name, true);
+      xhr.send(null);
+    }
+
+    function requestFetchAPIGet() {
+        let name = document.getElementById("nameInput2").value.replace('&', " ");;
+        fetch('/submit'+'?imie='+name) // Execution of the (asynchronous) query to the web server — a promise is created
+          .then(function (response) { // if the promise is fulfilled
+              
+              if (!response.ok)
+            {
+              throw Error(response.statusText);
+            }
+              
+            if (response.headers.get("Content-Type") !== 'application/json')
+            {
+              response.text().then(text=>{
+                  window.alert(text);
+              }); // show the Promise object
+              
+            }
+            else
+            {
+              window.alert(response.json()); // show the Promise object
+              
+            }
+              
+          })
+          .catch(function (error) { // if the promise is rejected
+            window.alert(error);
+          });
+      }
+
+      function requestFetchAPIPost()
+      {
+        let name = document.getElementById("nameInput3").value.replace('&', " ");;
+        const data = { imie: name };
+        fetch('/submit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        }) // Execution of the (asynchronous) query to the web server — a promise is created
+        .then(function (response) { // if the promise is fulfilled
+            if (!response.ok)
+          {
+            throw Error(response.statusText);
+          }
+            
+          if (response.headers.get("Content-Type") !== 'application/json')
+          {
+            response.text().then(text=>{
+                window.alert(text);
+            }); // show the Promise object
+            
+          }
+          else
+          {
+              
+            window.alert(response.json()); // show the Promise object
+            
+          }
+            //If the received data is a JSON document
+            
+        })
+        .catch(function (error) { // if the promise is rejected
+          
+            window.alert(error);
+        });}
+    </script>
+  </head>
+  <body>
+    <main>
+      <form method="get"
+            action="/submit">
+        <label>Perform a query to the web server with the <strong>GET</strong> method</label> <input type="submit"
+              value="Without using AJAX or Fetch API"> <input type="button"
+              value="Using AJAX"
+              onclick="requestAJAX()"> <input type="button"
+              value="Using Fetch API"
+              onclick="requestFetchAPI()">
+      </form>
+
+      <form>
+        <input id="nameInput">
+        <button onclick="requestAJAXGet()">AJAX (GET)</button>
+      </form>
+      <form action="/submit" method="post">
+        <input type="text" name="name" />
+        <button>AJAX (POST)</button>
+      </form>
+      <form>
+        <input id="nameInput2">
+        <button onclick="requestFetchAPIGet()">FETCH API (GET)</button>
+        </form>
+
+        <form>
+        <input id="nameInput3">
+        <button onclick="requestFetchAPIPost()">FETCH API (POST)</button>
+        </form>
+    </main>
+  </body>
+</html>
